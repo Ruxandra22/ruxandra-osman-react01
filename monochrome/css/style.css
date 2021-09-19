@@ -541,8 +541,29 @@ imaginea. Imi strica alinierea si nu am reusit sa o remediez, asa ca am apelat
   margin-left: 16px;
 }
 
+.product-control.active {
+  color: #740878;
+}
+
+.product-tile .product-control.busy .addIcon {
+  opacity: 0;
+}
+
+.product-tile .product-control.busy .wishListIcon {
+  opacity: 0;
+}
+
 .product-tile-controls a i:hover {
   color: #740878;
+}
+
+.product-tile .product-control .icon {
+  display: none;
+}
+
+.product-tile .product-control.busy .icon {
+  display: inline-block;
+  animation: spin 1s linear infinite;
 }
 
 /* nu am vazut deloc hover in design. sterg daca nu e in regula :D
