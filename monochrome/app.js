@@ -30,14 +30,20 @@ class AddToWishList extends React.Component {
   }
 
   render() {
+    const {added, busy} = this.state;
+
     return (
       <a
         className={`product-control ${
-          this.state.added === true ? 'active' : ''
-        } ${this.state.busy === true ? 'busy' : ''}`}
+          added === true ? 'active' : ''
+        } ${busy === true ? 'busy' : ''}`}
         onClick={this.onClick}
       >
-        <i className={this.state.added ? 'fas fa-heart wishListIcon' : 'far fa-heart wishListIcon'}/>
+        {!busy ? (
+          <span>
+          <i className={added ? 'fas fa-heart' : 'far fa-heart'}/>
+        </span>
+        ) : null}
         <i className="fas fa-spinner icon"/>
       </a>
     )
@@ -76,14 +82,21 @@ class AddToCart extends React.Component {
   }
 
   render() {
+    const {added, busy} = this.state;
+
     return (
       <a
         className={`product-control ${
-          this.state.added === true ? 'active' : ''
-        } ${this.state.busy === true ? 'busy' : ''}`}
+          added === true ? 'active' : ''
+        } ${busy === true ? 'busy' : ''}`}
         onClick={this.onClick}
       >
-        <i className="far fa-plus-square addIcon"/>
+        {!busy ? (
+          <span>
+          <i className={added ? 'fas fa-plus-square' : 'far fa-plus-square'}/>
+        </span>
+        ): null}
+
         <i className="fas fa-spinner icon"/>
       </a>
     )

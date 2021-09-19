@@ -545,11 +545,7 @@ imaginea. Imi strica alinierea si nu am reusit sa o remediez, asa ca am apelat
   color: #740878;
 }
 
-.product-tile .product-control.busy .addIcon {
-  opacity: 0;
-}
-
-.product-tile .product-control.busy .wishListIcon {
+.product-tile .product-control.busy span {
   opacity: 0;
 }
 
