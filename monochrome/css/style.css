@@ -648,6 +648,7 @@ aside img {
   display: flex;
   flex-direction: column;
 }
+
 .footer-sign-up-newsletter form label {
   margin-bottom: 10px;
 }
@@ -661,6 +662,14 @@ aside img {
   padding: 5px 0;
   font-family: 'Roboto';
   font-weight: normal;
+}
+
+.footer-sign-up-newsletter button[type='submit'].busy {
+  background: none;
+}
+
+.footer-sign-up-newsletter button[type='submit'].busy icon {
+  animation: spin 1s linear infinite;
 }
 
 .footer-sign-up-newsletter button {
