@@ -557,9 +557,19 @@ imaginea. Imi strica alinierea si nu am reusit sa o remediez, asa ca am apelat
   display: none;
 }
 
-.product-tile .product-control.busy .icon {
+.product-control.busy .icon {
   display: inline-block;
   animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* nu am vazut deloc hover in design. sterg daca nu e in regula :D
@@ -664,7 +674,7 @@ aside img {
   background: none;
 }
 
-.footer-sign-up-newsletter button[type='submit'].busy icon {
+.footer-sign-up-newsletter button[type='submit'].busy .icon {
   animation: spin 1s linear infinite;
 }
 
