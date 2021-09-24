@@ -409,6 +409,11 @@ a {
 .header-search {
   margin-top: 10px;
 }
+
+.header-controls {
+  display: flex;
+}
+
 .header-controls-and-search {
   margin-right: 15%;
   float: right;
@@ -429,6 +434,17 @@ a {
 
 .header-controls a {
   color: #2b2b2b;
+}
+
+.header-control .qty {
+  position: relative;
+  top: -5px;
+  right: -5px;
+  padding: 2px 2px;
+  background-color: #ff6b6b;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
 }
 
 .header-search a {

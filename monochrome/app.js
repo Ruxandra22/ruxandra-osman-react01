@@ -1,3 +1,8 @@
+const ADD_TO_CART_EVENT = 'cart:add';
+const REMOVE_FROM_CART_EVENT = 'cart:remove';
+const ADD_TO_WISHLIST_EVENT = 'wl:add';
+const REMOVE_FROM_WISHLIST_EVENT= 'wl:remove'
+
 class AddToWishList extends React.Component {
 
   state = {
@@ -6,7 +11,6 @@ class AddToWishList extends React.Component {
   };
 
   onClick = () => {
-
     if (this.state.busy === true) {
       return;
     }
@@ -16,11 +20,15 @@ class AddToWishList extends React.Component {
     });
 
     setTimeout(() => {
+      const { productId } = this.props;
       dispatchEvent(
-        new CustomEvent('product:wishList', {
-          detail: this.props.productId,
-        }),
-      );
+        new CustomEvent(this.state.added ? REMOVE_FROM_WISHLIST_EVENT : ADD_TO_WISHLIST_EVENT,
+          {
+            detail: {
+             productId,
+            },
+          }),
+        );
 
       this.setState({
         busy: false,
@@ -68,10 +76,15 @@ class AddToCart extends React.Component {
     });
 
     setTimeout(() => {
+      const { productId } = this.props;
+      const { added } = this.state;
       dispatchEvent(
-        new CustomEvent('cart:add', {
-          detail: this.props.productId,
-        }),
+        new CustomEvent(added ? REMOVE_FROM_CART_EVENT : ADD_TO_CART_EVENT,
+          {
+            detail: {
+              productId,
+            },
+          }),
       );
 
       this.setState({
@@ -109,8 +122,8 @@ class ProductControls extends React.Component {
     const productId = this.props.productId;
 
     return [
-      <AddToCart productId={productId}/>,
-      <AddToWishList productId={productId}/>
+      <AddToCart key="321" productId={productId}/>,
+      <AddToWishList key="123" productId={productId}/>
     ]
   }
 }
@@ -118,7 +131,7 @@ class ProductControls extends React.Component {
 const productAddToCartButton = document.querySelectorAll('.product-tile-controls');
 productAddToCartButton.forEach((productTileControl, index) => {
   ReactDOM.render(
-    <ProductControls productId={index}/>,
+    <ProductControls key={index} productId={index}/>,
     productTileControl,
   )
 })
@@ -217,3 +230,141 @@ class Newsletter extends React.Component {
 
 const newsletterContainer = document.querySelector('.footer-sign-up-newsletter');
 ReactDOM.render(<Newsletter/>, newsletterContainer);
+
+class HeaderControls extends React.Component {
+
+  state = {
+    cartItemsCount: 0,
+    wishlistItemsCount: 0,
+    cartItems: [],
+    wishlistItems: [],
+  }
+
+  componentDidMount() {
+    addEventListener(ADD_TO_WISHLIST_EVENT, this.wishlistAction);
+    addEventListener(REMOVE_FROM_WISHLIST_EVENT, this.wishlistAction);
+
+    addEventListener(ADD_TO_CART_EVENT, this.cartAction);
+    addEventListener(REMOVE_FROM_CART_EVENT, this.cartAction);
+  }
+
+  wishlistAction = (event) => {
+    const { productId } = event.detail;
+    const { type: eventType } = event;
+    const { wishlistItems } = this.state;
+
+    let newProductIds = [];
+    let productCount = 0;
+
+    switch(eventType) {
+      case ADD_TO_WISHLIST_EVENT:
+        newProductIds = wishlistItems.length === 0
+          ? [productId]
+          : [...wishlistItems, productId];
+        break;
+      case REMOVE_FROM_WISHLIST_EVENT:
+        newProductIds = wishlistItems.filter((item) => {
+          return item !== productId;
+        })
+        break;
+    }
+
+    productCount = newProductIds.length;
+
+    this.setState({
+      wishlistItemsCount: productCount,
+      wishlistItems: newProductIds,
+    })
+  }
+
+  cartAction = (event) => {
+    const { productId } = event.detail;
+    const { type: eventType } = event;
+    const { cartItems } = this.state;
+
+    let newCartItems = [];
+    let cartItemsCount = 0;
+
+    switch (eventType) {
+      case ADD_TO_CART_EVENT:
+        newCartItems = cartItems.length === 0
+          ? [productId]
+          : [...cartItems, productId];
+        break;
+      case REMOVE_FROM_CART_EVENT:
+        newCartItems = cartItems.filter((item) => {
+          return item !== productId;
+        })
+        break;
+    }
+
+    cartItemsCount = newCartItems.length;
+
+    this.setState({
+      cartItemsCount,
+      cartItems: newCartItems,
+    })
+  }
+
+  showProducts(collectionName, displayName) {
+    let message = '';
+    const name = displayName.toLowerCase();
+    const productCount = this.state[collectionName];
+
+    if (productCount < 1) {
+      message = `There are no products in your ${name}`;
+    } else {
+      message = `There are ${productCount} products in your ${name}: ${this.state[`${name}Items`]}`;
+    }
+
+    alert(message);
+  }
+
+  render() {
+    const { wishlistItemsCount, cartItemsCount } = this.state;
+    return (
+      <ul>
+        <li>
+          <a
+            title="My Account"
+          >
+            <i className="fas fa-user"/>
+          </a>
+        </li>
+
+        <li className="header-control">
+          <a
+            title="Saved Items"
+          >
+            <span className="qty">
+              {wishlistItemsCount}
+            </span>
+            <i
+              className="far fa-heart"
+              onClick={() => {
+                this.showProducts('wishlistItemsCount', 'Wishlist');
+              }}
+            />
+          </a>
+        </li>
+
+        <li className="header-control">
+          <a title="Cart">
+            <span className="qty">
+              {cartItemsCount}
+            </span>
+            <i
+              className="fas fa-shopping-bag"
+              onClick={() => {
+                this.showProducts('cartItemsCount', 'Cart');
+              }}
+            />
+          </a>
+        </li>
+      </ul>
+    )
+  }
+}
+
+const headerControls = document.querySelector('.header-controls');
+ReactDOM.render(<HeaderControls/>, headerControls);

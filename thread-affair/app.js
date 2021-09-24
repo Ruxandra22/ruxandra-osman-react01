@@ -290,12 +290,12 @@ class HeaderCounters extends React.Component {
   productWishlistAction = (event) => {
     alert('On event');
     const { productId } = event.detail;
-    const { type: eventYType } = event;
+    const { type: eventType } = event;
     const { wishlistItems } = this.state;
     let newProductIds = [];
     let productCount = 0;
 
-    switch(eventYType) {
+    switch(eventType) {
       case ADD_TO_WISHLIST_EVENT:
         newProductIds = wishlistItems.length === 0
           ? [productId]
