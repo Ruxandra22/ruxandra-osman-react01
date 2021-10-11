@@ -31,7 +31,7 @@ class App extends Component {
       })
     }).catch(() => {
       this.setState({
-        errorMessage: 'An error has occured',
+        errorMessage: 'An error has occurred',
         busy: false,
       })
     })
