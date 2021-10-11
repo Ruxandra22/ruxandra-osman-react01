@@ -82,16 +82,10 @@ console.warn('5. Folosind metoda map pe arrayul skills, returneaza un array care
   'ultima litera mari. ');
 arr = person.skills.map((skill) => {
   const letterArray = skill.split('');
-  const mutatedLetterArray = [];
 
-  letterArray.forEach((letter, index) => {
-    if (index === 0 || index === skill.length - 1) {
-      mutatedLetterArray.push(letter.toUpperCase());
-    } else {
-      mutatedLetterArray.push(letter);
-    }
-  })
-  return mutatedLetterArray.join('');
+  letterArray[0] = letterArray[0].toUpperCase();
+  letterArray[letterArray.length - 1] = letterArray[letterArray.length - 1].toUpperCase();
+  return letterArray.join('');
 });
 console.log(arr);
 
