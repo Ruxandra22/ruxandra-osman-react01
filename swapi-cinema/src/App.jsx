@@ -1,6 +1,8 @@
 import {Component, Fragment} from "react";
 import Search from "./components/Search";
 import Films from "./components/Films";
+import Film from "./components/Film";
+import PurchaseFilm from "./components/PurchaseFilm";
 
 const baseUrl = 'https://swapi.dev/api/films';
 
@@ -10,6 +12,9 @@ class App extends Component {
     films: [],
     busy: true,
     errorMessage: '',
+    hasSearchResults: false,
+    selectedFilm: null,
+    purchasing: false,
   };
 
   getFilms() {
@@ -18,7 +23,7 @@ class App extends Component {
     });
 
     // promise chaining
-    fetch(baseUrl).then((response) => {
+    return fetch(baseUrl).then((response) => {
       if(response.status === 404) {
         throw new Error('404');
       }
@@ -37,23 +42,86 @@ class App extends Component {
     })
   }
 
+  clearSearchResults = () => {
+    this.getFilms().then(() => {
+      this.setState({
+        hasSearchResults: false,
+      })
+    })
+  }
+
   renderFilms() {
-    return <>
-      <h2>Available films</h2>
-      <Films films={this.state.films}></Films>
-    </>
+    return (
+      <>
+        <h2>Available films</h2>
+        <Films
+          films={this.state.films}
+          selectFilm={(film) => {
+            this.setState({
+              selectedFilm: film,
+            });
+          }}
+          purchaseFilm={(film) => {
+            this.setState({
+              selectedFilm: film,
+              purchasing: true,
+            })
+          }}
+        />
+        {this.state.hasSearchResults ?
+          <button
+            className="btn btn-warning text-white"
+            title="See all movies"
+            type="button"
+            onClick={this.clearSearchResults}
+          >
+            See all movies
+          </button>
+          :
+          <></>
+        }
+      </>
+    )
+  }
+
+  renderFilm() {
+    return <Film
+      film={this.state.selectedFilm}
+      deselectFilm={() => {
+        this.setState({
+          selectedFilm: null,
+        })
+      }}
+      purchaseFilm={() => {
+        this.setState({
+          purchasing: true,
+        })
+      }}
+    />
   }
 
   renderMainScreen() {
     if (this.state.busy) {
-      // another syntax for Fragment
       return <>...loading</>
     }
 
     if (!this.state.busy && this.state.errorMessage) {
       return <>{this.state.errorMessage}</>
     }
-    return this.renderFilms();
+
+    if (this.state.purchasing) {
+      return <PurchaseFilm
+        film={this.state.selectedFilm}
+        cancelPurchase={() => {
+          this.setState({
+            purchasing: false,
+            selectedFilm: null,
+          })
+        }}
+      />
+    }
+
+    return this.state.selectedFilm !== null ? this.renderFilm() : this.renderFilms();
   }
 
   componentDidMount() {
@@ -66,11 +134,16 @@ class App extends Component {
         <header className="navbar-expand-md navbar-dark fixed-top bg-dark">
           <nav className="container d-flex justify-content-between">
             <h1 className="display-6 text-warning">Swapi Cinema</h1>
-            <Search onSearchResults={(films) => {
-              this.setState({
-                films,
-              })
-            }}/>
+            <Search
+              onSearchResults={(films) => {
+                this.setState({
+                  films,
+                  hasSearchResults: true,
+                  selectedFilm: null,
+                })
+              }}
+              placeholder={'Choose a SW movie'}
+            />
           </nav>
         </header>
 

@@ -9,6 +9,7 @@ class Films extends Component {
 
     return this.props.films.map((film) => {
       const { title, episode_id: id } = film;
+
       return (
         <article key={id} className="col-6 col-md-3 p-4 mb-2 d-flex flex-column">
           <header>
@@ -18,11 +19,23 @@ class Films extends Component {
           </header>
 
           <section className="d-flex justify-content-between">
-            <button className="btn btn-sm btn-light" type="button" title={`View details about ${title}`}>
+            <button
+              className="btn btn-sm btn-light"
+              type="button"
+              title={`View details about ${title}`}
+              onClick={() => {
+                this.props.selectFilm(film);
+              }}
+            >
               Details
             </button>
 
-            <button className="btn btn-sm btn-warning" type="button" title={`But tickets to ${title}`}>
+            <button
+              className="btn btn-sm btn-warning"
+              type="button"
+              title={`But tickets to ${title}`}
+              onClick={() => {this.props.purchaseFilm(film)}}
+            >
               Buy tickets
             </button>
           </section>
