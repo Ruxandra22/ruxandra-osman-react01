@@ -120,12 +120,17 @@ class App extends Component {
               Movie Characters
             </h1>
             <Search
+              customStyle={"d-inline-flex align-self-center"}
               onSearchResults={this.setSearchResult}
             />
           </nav>
         </header>
 
         <main className="container mt-5 pt-5 text-dark">
+          <Search
+            customStyle={"d-flex align-self-center mb-5"}
+            onSearchResults={this.setSearchResult}
+          />
           {this.renderMain()}
         </main>
       </Fragment>
