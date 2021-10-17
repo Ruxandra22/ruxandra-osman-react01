@@ -44,6 +44,7 @@ class Search extends Component {
           className="form-control me-2 align-self-center"
           name="q"
           placeholder="Search..."
+          value={this.state.searchTerm}
           onChange={this.onInputChange}
           required
         />

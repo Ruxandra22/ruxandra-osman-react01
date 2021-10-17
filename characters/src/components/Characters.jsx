@@ -23,6 +23,7 @@ class Characters extends Component {
               className="btn btn-info"
               type="button"
               title="View Character Details"
+              onClick={() => this.props.selectCharacter(character)}
             >
               Details
             </button>
