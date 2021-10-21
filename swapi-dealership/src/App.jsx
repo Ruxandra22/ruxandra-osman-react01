@@ -2,6 +2,7 @@ import { useReducer } from 'react';
 import Screen from './components/Screen';
 import { AppContext, appState, appStateReducer } from './contexts/AppContext';
 import Search from './legacy/Search';
+import FooterNav from "./components/FooterNav";
 
 const App = () => {
   const [state, dispatch] = useReducer(appStateReducer, appState);
@@ -26,7 +27,9 @@ const App = () => {
         <Screen screen={currentScreen}></Screen>
       </main>
 
-      <footer className="container mb-4">Footer</footer>
+      <footer className="container mb-4">
+        <FooterNav/>
+      </footer>
     </AppContext.Provider>
   );
 };

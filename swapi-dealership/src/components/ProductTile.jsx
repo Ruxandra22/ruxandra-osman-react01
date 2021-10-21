@@ -1,6 +1,5 @@
 import {useContext} from "react";
 import {AppContext} from "../contexts/AppContext";
-import MetaImage from "../legacy/MetaImage";
 
 export const ProductTile = ({ product }) => {
   const { name, model } = product;
@@ -24,7 +23,7 @@ export const ProductTile = ({ product }) => {
         <h5 className="text-warning text-left">{name}</h5>
         <h6>({model})</h6>
 
-        <MetaImage term={name}></MetaImage>
+        {/*<MetaImage term={name}/>*/}
       </header>
 
       <section className="mt-2 text-center">
