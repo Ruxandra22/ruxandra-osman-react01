@@ -4,7 +4,7 @@ import CartTotals from './CartTotals';
 import { AppContext } from './../contexts/AppContext';
 
 export const Checkout = () => {
-  const {state: { cart }, dispatch,} = useContext(AppContext);
+  const {state: { cart }} = useContext(AppContext);
 
   const placeOrder = (formData) => {
     console.log('send to ', formData);
