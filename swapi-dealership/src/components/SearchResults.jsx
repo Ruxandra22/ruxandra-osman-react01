@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {AppContext} from "../contexts/AppContext";
 import ProductTile from "./ProductTile";
+import Search from "../legacy/Search";
 
 export const SearchResults = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -8,7 +9,12 @@ export const SearchResults = () => {
 
   const renderResults = () => {
     if (searchResults.length <= 0) {
-      return <p>No products found.</p>
+      return (
+        <>
+          <p>No products found.</p>
+          <Search></Search>
+        </>
+      )
     }
     return searchResults.map((product) => {
       return <ProductTile key={product.name} product={product}/>
@@ -34,6 +40,7 @@ export const SearchResults = () => {
       </header>
 
       {renderResults()}
+
 
       <div className="col-12 mt-2 text-center">
         <button

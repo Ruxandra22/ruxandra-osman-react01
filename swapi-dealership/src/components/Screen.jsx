@@ -3,6 +3,7 @@ import Product from "./Product";
 import SearchResults from "./SearchResults";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import PageNotFound from "./PageNotFound";
 
 const componentMap = {
   home: Products,
@@ -10,12 +11,13 @@ const componentMap = {
   searchResults: SearchResults,
   cart: Cart,
   checkout: Checkout,
+  pageNotFound: PageNotFound,
 };
 
 
 export const Screen = ({ screen = 'home'}) => {
   if (!screen || typeof componentMap[screen] === 'undefined') {
-    return <componentMap.home/>
+    return <componentMap.pageNotFound/>
   }
   const CurrentComponent = componentMap[screen];
 

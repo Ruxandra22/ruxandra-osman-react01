@@ -41,5 +41,12 @@ export const appStateReducer = (appState, { type, payload }) => {
       ],
     }
   }
+
+  if (type === 'removeFromCart') {
+    return {
+      ...appState,
+      cart: appState.cart.filter((cartItem) => cartItem.name !== payload.name),
+    }
+  }
   return appState;
 }

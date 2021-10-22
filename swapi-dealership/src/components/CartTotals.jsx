@@ -1,11 +1,46 @@
+import {useContext} from "react";
+import {AppContext} from "../contexts/AppContext";
+
 export const CartTotals = ({ cart }) => {
+  const { dispatch } = useContext(AppContext);
 
   const renderTableRows = () => {
-    return cart.map(({ name, cost_in_credits }) => {
+    return cart.map((cartItem) => {
+      const { name, cost_in_credits } = cartItem;
+
       return (
         <tr key={name}>
-          <td>{name}</td>
+          <td
+            style={{cursor: 'pointer'}}
+            onClick={() => {
+              dispatch({
+                type: 'setSelected',
+                payload: cartItem,
+              });
+
+              dispatch({
+                type: 'setScreen',
+                payload: 'productPage',
+              });
+            }}
+          >
+            {name}
+          </td>
           <td>{cost_in_credits}</td>
+          <td>
+            <span style={{cursor: 'pointer'}}>
+              <i
+                className="fas fa-times"
+                style={{color: 'red'}}
+                onClick={() => {
+                  dispatch({
+                    type: 'removeFromCart',
+                    payload: cartItem,
+                  })
+                }}
+              />
+            </span>
+          </td>
         </tr>
       )
     })

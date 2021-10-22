@@ -3,6 +3,7 @@ import Screen from './components/Screen';
 import { AppContext, appState, appStateReducer } from './contexts/AppContext';
 import Search from './legacy/Search';
 import FooterNav from "./components/FooterNav";
+import AppLogo from "./components/AppLogo";
 
 const App = () => {
   const [state, dispatch] = useReducer(appStateReducer, appState);
@@ -17,7 +18,7 @@ const App = () => {
     <AppContext.Provider value={contextValue}>
       <header className="navbar-dark fixed-top bg-dark border-bottom border-warning">
         <nav className="container d-flex justify-content-between">
-          <h1 className="display-6 text-warning">Swapi Vehicles</h1>
+            <AppLogo/>
 
           <Search></Search>
         </nav>
@@ -25,6 +26,7 @@ const App = () => {
 
       <main className="container mt-7 mb-4">
         <Screen screen={currentScreen}></Screen>
+        <AppLogo/>
       </main>
 
       <footer className="container mb-4">
