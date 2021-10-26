@@ -2,6 +2,7 @@ import {useContext, useMemo} from "react";
 import {AppContext} from "../contexts/AppContext";
 import MetaImage from "../legacy/MetaImage";
 import ProductDetails from "./ProductDetails";
+import RelatedProducts from "./RelatedProducts";
 
 export const Product = () => {
   const { dispatch, state } = useContext(AppContext);
@@ -82,6 +83,9 @@ export const Product = () => {
           {productInCart ? 'Remove from cart' : `Add to cart (${product.cost_in_credits})`}
         </button>
       </div>
+
+      <RelatedProducts></RelatedProducts>
+
     </section>
   )
 };

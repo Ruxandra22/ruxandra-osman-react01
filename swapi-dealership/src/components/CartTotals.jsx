@@ -1,5 +1,6 @@
 import {useContext} from "react";
 import {AppContext} from "../contexts/AppContext";
+import './../styles/CartTotals.css';
 
 export const CartTotals = ({ cart }) => {
   const { dispatch } = useContext(AppContext);
@@ -30,7 +31,7 @@ export const CartTotals = ({ cart }) => {
           <td>
             <span style={{cursor: 'pointer'}}>
               <i
-                className="fas fa-times"
+                className="fas fa-times removeFromCart"
                 style={{color: 'red'}}
                 onClick={() => {
                   dispatch({
