@@ -4,10 +4,25 @@ import CartTotals from './CartTotals';
 import { AppContext } from './../contexts/AppContext';
 
 export const Checkout = () => {
-  const {state: { cart }} = useContext(AppContext);
+  const {state: { cart }, dispatch} = useContext(AppContext);
 
   const placeOrder = (formData) => {
-    console.log('send to ', formData);
+    dispatch({
+      type: 'setOrder',
+      payload: {
+        address: formData,
+        items: [...cart], //cart.slice()
+      }
+    });
+
+    dispatch({
+      type: 'setScreen',
+      payload: 'orderConfirmation',
+    });
+
+    dispatch({
+      type: 'emptyCart',
+    })
   }
 
   return (

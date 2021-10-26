@@ -4,6 +4,7 @@ import SearchResults from "./SearchResults";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import PageNotFound from "./PageNotFound";
+import OrderConfirmation from "./OrderConfirmation";
 
 const componentMap = {
   home: Products,
@@ -12,6 +13,7 @@ const componentMap = {
   cart: Cart,
   checkout: Checkout,
   pageNotFound: PageNotFound,
+  orderConfirmation: OrderConfirmation,
 };
 
 

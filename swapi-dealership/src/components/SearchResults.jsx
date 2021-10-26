@@ -12,7 +12,7 @@ export const SearchResults = () => {
       return (
         <>
           <p>No products found.</p>
-          <Search></Search>
+          <Search className="d-inline-flex my-4 mx-auto w-50"/>
         </>
       )
     }

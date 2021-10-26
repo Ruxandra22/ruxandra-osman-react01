@@ -3,6 +3,7 @@ import {AppContext} from "../contexts/AppContext";
 import MetaImage from "../legacy/MetaImage";
 import ProductDetails from "./ProductDetails";
 import RelatedProducts from "./RelatedProducts";
+import Dialog from "./Dialog";
 
 export const Product = () => {
   const { dispatch, state } = useContext(AppContext);
@@ -19,6 +20,8 @@ export const Product = () => {
     return cart.find((cartItem) => {
       return cartItem.name === product.name;
     })
+      ? true
+      : false;
   }, [cart, product.name]);
 
 
@@ -40,6 +43,13 @@ export const Product = () => {
       payload: product,
     });
   };
+
+  const removeFromCart = () => {
+    dispatch({
+      type: 'removeFromCart',
+      payload: product,
+    })
+  }
 
   return (
     <section className="row">
@@ -78,11 +88,17 @@ export const Product = () => {
           className="btn-warning btn-xl flex-grow-1"
           title={`Add ${product.name} to cart`}
           type="button"
-          onClick={addToCart}
+          onClick={() => {
+            productInCart ? removeFromCart() : addToCart();
+          }}
         >
-          {productInCart ? 'Remove from cart' : `Add to cart (${product.cost_in_credits})`}
+          {productInCart
+            ? 'Remove from cart'
+            : `Add to cart (${product.cost_in_credits})`}
         </button>
       </div>
+
+      <Dialog show={true}>hello from dialog</Dialog>
 
       <RelatedProducts></RelatedProducts>
 

@@ -20,7 +20,7 @@ const App = () => {
         <nav className="container d-flex justify-content-between">
             <AppLogo/>
 
-          <Search></Search>
+          <Search className="d-inline-flex align-self-center"></Search>
         </nav>
       </header>
 
