@@ -22,7 +22,7 @@ export const RelatedProducts = () => {
           setRelatedProducts(relatedProducts.slice(0, 4));
         }
       })
-  }, []);
+  }, [product]);
 
   useEffect(() => {
     fetchRelatedProducts();
