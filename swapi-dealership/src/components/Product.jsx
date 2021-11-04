@@ -1,4 +1,4 @@
-import {useContext, useMemo} from "react";
+import {useContext, useMemo, useState} from "react";
 import {AppContext} from "../contexts/AppContext";
 import MetaImage from "../legacy/MetaImage";
 import ProductDetails from "./ProductDetails";
@@ -24,6 +24,8 @@ export const Product = () => {
       : false;
   }, [cart, product.name]);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
 
   const navigateHome = () => {
     dispatch({
@@ -37,11 +39,25 @@ export const Product = () => {
     });
   };
 
+  const navigateToCart = () => {
+    dispatch({
+      type: 'setScreen',
+      payload: 'cart',
+    });
+
+    dispatch({
+      type: 'setSelected',
+      payload: null,
+    })
+  }
+
   const addToCart = () => {
     dispatch({
       type: 'addToCart',
       payload: product,
     });
+
+    setIsDialogOpen(true);
   };
 
   const removeFromCart = () => {
@@ -98,7 +114,49 @@ export const Product = () => {
         </button>
       </div>
 
-      <Dialog show={true}>hello from dialog</Dialog>
+      <Dialog
+        show={isDialogOpen}
+        onClose={() => {
+          setIsDialogOpen(false);
+        }}
+      >
+        <div className="alert alert-success">
+          {product.name} ({product.cost_in_credits}) added to cart
+        </div>
+
+        <div className="d-flex justify-content-between mt-6">
+          <button
+            className="btn btn-secondary btn-sm"
+            title="See cart"
+            type="button"
+            onClick={navigateToCart}
+          >
+            See cart
+          </button>
+
+          <button
+            className="btn btn-secondary btn-sm"
+            title="Continue shopping"
+            type="button"
+            onClick={navigateHome}
+          >
+            Continue shopping
+          </button>
+        </div>
+
+        <div className="text-end mt-2">
+          <button
+            className="btn btn-danger btn-xl"
+            type="button"
+            title="CLOSE DIALOG"
+            onClick={() => {
+              setIsDialogOpen(false);
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </Dialog>
 
       <RelatedProducts></RelatedProducts>
 
