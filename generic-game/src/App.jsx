@@ -1,44 +1,32 @@
+import { Switch, BrowserRouter, Route } from 'react-router-dom';
+import { initializeGoogleAuth } from './api';
 import { Footer, Header } from './components/common';
-import {useDispatch, useSelector} from "react-redux";
-import {clickClicker, decrementClicker} from "./actions/creators/ui";
-import {initializeGoogleAuth} from "./api";
+import { HomePage, NotFoundPage, ProfilePage, RanksPage } from './pages';
 
+// import { STH, STH } from './actions/types/ui';
+// import {dispatchState} from './actions/creators/ui';
+
+// async
 initializeGoogleAuth();
 
 export const App = () => {
-  const clicker = useSelector((state => {
-    const { ui } = state;
-
-    return ui.clicker;
-  }));
-  const dispatch = useDispatch();
-
-
   return (
-    <>
-      <Header/>
-      <main>
-        <div>Value is: {clicker}</div>
-        <button
-          onClick={() => {
-            dispatch(decrementClicker());
-          }}
-        >
-          Decrement
-        </button>
-        <button
-          onClick={() => {
-            dispatch(clickClicker());
-          }}
-        >
-          Test
-        </button>
+    <BrowserRouter>
+      <Header></Header>
+      <main className="flex-grow">
+        <Switch>
+          <Route path="/" exact component={HomePage}/>
+          <Route path="/profile" component={ProfilePage}/>
+          <Route path="/ranks" component={RanksPage}/>
+          <Route component={NotFoundPage}/>
+        </Switch>
       </main>
       <Footer></Footer>
-    </>
-  )
+    </BrowserRouter>
+  );
 };
 
 export default App;
+
 // actions -> {type: '', payload: {}}  /types /creators
 // reducers
