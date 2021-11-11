@@ -1,5 +1,18 @@
+import {useEffect} from "react";
+import {useHistory} from "react-router-dom";
+import {useAuth} from "../hooks";
+
 export const ProfilePage = () => {
-  return 'profile'
+  const history = useHistory();
+  const { authenticated } = useAuth();
+
+  useEffect(() => {
+    if (!authenticated) {
+      history.push('/');
+    }
+  }, [authenticated, history]);
+
+  return authenticated ? 'Profile' : <></>;
 };
 
 export default ProfilePage;
