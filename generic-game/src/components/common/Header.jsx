@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import { requestSignIn, requestSignOut} from '../../actions/creators/auth';
 import { FaUserAlt } from 'react-icons/fa';
 import {useAuth} from "../../hooks";
-import {CgSpinnerTwo} from "react-icons/all";
+import {Loader} from "../ui";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export const Header = () => {
 
   const renderUserControls = () => {
     if (!established) {
-      return <CgSpinnerTwo className="animate-spin"/>
+      return <Loader/>;
     }
     if (authenticated) {
       return (
