@@ -1,36 +1,41 @@
-import store from "../store";
-import {login, logout} from "../actions/creators/auth";
+import { login, logout } from '../actions/creators/auth';
+import store from './../store';
 
 let eventBound = false;
 const googleOauthAppId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 if (googleOauthAppId === undefined) {
-  throw new Error('Google Client Id not found');
+  throw new Error('Google Client ID not found');
 }
 
 // recipe
 export const initializeGoogleAuth = async () => {
   return new Promise((resolve) => {
     window.gapi.load('client:auth2', () => {
-      window.gapi.client.init({
-        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: 'email profile',
-      }).then(() => {
-        const GoogleAuth = window.gapi.auth2.getAuthInstance();
-        const googleUser = GoogleAuth.currentUser.get();
+      window.gapi.client
+        .init({
+          clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          scope: 'email profile',
+        })
+        .then(() => {
+          const GoogleAuth = window.gapi.auth2.getAuthInstance();
+          const googleUser = GoogleAuth.currentUser.get();
 
-        if (!eventBound) {
-          GoogleAuth.isSignedIn.listen((isAuthenticated) => {
-            authenticationChangeHandler(isAuthenticated, googleUser);
-          });
+          if (!eventBound) {
+            GoogleAuth.isSignedIn.listen((isAuthenticated) => {
+              authenticationChangeHandler(isAuthenticated, googleUser);
+            });
 
-          authenticationChangeHandler(GoogleAuth.isSignedIn.get(), googleUser);
+            authenticationChangeHandler(
+              GoogleAuth.isSignedIn.get(),
+              googleUser,
+            );
 
-          eventBound = true;
-        }
+            eventBound = true;
+          }
 
-        resolve(GoogleAuth);
-      });
+          resolve(GoogleAuth);
+        });
     });
   });
 };
@@ -52,5 +57,5 @@ const buildGoogleUserBasicProfile = (googleUser) => {
     lastName: googleUser.getFamilyName(),
     email: googleUser.getEmail(),
     avatar: googleUser.getImageUrl(),
-  }
-}
+  };
+};

@@ -1,7 +1,7 @@
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import { initializeGoogleAuth } from './api';
 import { Footer, Header } from './components/common';
-import { HomePage, NotFoundPage, ProfilePage, RanksPage, PlayPage } from './pages';
+import { HomePage, NotFoundPage, ProfilePage, RanksPage } from './pages';
 
 // import { STH, STH } from './actions/types/ui';
 // import {dispatchState} from './actions/creators/ui';
@@ -15,11 +15,10 @@ export const App = () => {
       <Header></Header>
       <main className="flex-grow">
         <Switch>
-          <Route path="/" exact component={HomePage}/>
-          <Route path="/profile" component={ProfilePage}/>
-          <Route path="/ranks" component={RanksPage}/>
-          <Route path="/play" component={PlayPage}/>
-          <Route component={NotFoundPage}/>
+          <Route path="/" exact component={HomePage}></Route>
+          <Route path="/profile" component={ProfilePage}></Route>
+          <Route path="/ranks" component={RanksPage}></Route>
+          <Route component={NotFoundPage}></Route>
         </Switch>
       </main>
       <Footer></Footer>
