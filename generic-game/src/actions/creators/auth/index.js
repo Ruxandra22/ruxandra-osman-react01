@@ -1,21 +1,36 @@
-import { initializeGoogleAuth } from '../../../api/googleAuth';
-import {getUserProfile, getUserStats, postUserProfile, postUserStats} from '../profile';
-import { AUTH_LOGOUT, AUTH_LOGIN } from './../../types/auth';
+import { initializeGoogleAuth } from '../../../api';
+import {
+  deleteUserProfile,
+  deleteUserStats,
+  getUserProfile,
+  getUserStats,
+  postUserProfile,
+  postUserStats
+} from '../profile';
+import { AUTH_LOGOUT, AUTH_LOGIN } from '../../types/auth';
+import {setNetworkError} from "../ui";
 
 export const login = (user) => {
   return async (dispatch) => {
     const { id } = user;
 
     // read
-    // determine if user is there
+    // determine if the user is there
     // if not, create
     try {
       await dispatch(getUserStats(id));
-    } catch (response) {
-      const {status: httpStatus} = response;
 
-      if(httpStatus === 404) {
+      // FOR TESTING PURPOSES OF 500 ERROR
+      // await dispatch(postUserStats(id));
+    } catch (response) {
+      const { status: httpStatus } = response;
+
+      if (httpStatus === 404) {
         await dispatch(postUserStats(id));
+      }
+
+      if (httpStatus === 500) {
+        await dispatch(setNetworkError('A user with the same id was already created.'));
       }
     }
 
@@ -23,11 +38,20 @@ export const login = (user) => {
     // determine if the user has a profile
     // if not, create
     try {
-      // dispatch getUserProfile
       await dispatch(getUserProfile(id));
+
+      // FOR TESTING PURPOSES OF 500 ERROR
+      // await dispatch(postUserProfile(id));
     } catch (response) {
-      // dispatch postUserProfile
-      await dispatch(postUserProfile(id));
+      const { status: httpStatus } = response;
+
+      if (httpStatus === 404) {
+        await dispatch(postUserProfile(id));
+      }
+
+      if (httpStatus === 500) {
+        await dispatch(setNetworkError('A user with the same id was already created.'));
+      }
     }
 
     dispatch(setLogin(user));
@@ -62,3 +86,30 @@ export const requestSignOut = () => {
     });
   };
 };
+
+export const requestDeleteUserStats = (user) => {
+  return async (dispatch) => {
+    const { id } = user;
+
+    try {
+      await dispatch(deleteUserStats(id));
+    } catch (response) {
+      const { status: httpStatus } = response;
+
+      if (httpStatus === 404) {
+        await dispatch(setNetworkError('The user you want to delete was not found'));
+      }
+    }
+
+    try {
+      await dispatch(deleteUserProfile(id));
+    } catch (response) {
+      const { status: httpStatus } = response;
+
+      if (httpStatus === 404) {
+        await dispatch(setNetworkError('The user you want to delete was not found'));
+      }
+    }
+    dispatch(requestSignOut());
+  }
+}

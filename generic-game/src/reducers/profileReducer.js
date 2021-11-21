@@ -1,4 +1,4 @@
-import {PROFILE_SET_STATS} from "../actions/types/profile";
+import {PROFILE_RESET_STATS, PROFILE_SET_STATS} from "../actions/types/profile";
 
 const initialState = {
   stats: {
@@ -19,7 +19,13 @@ const profileReducer = (state = initialState, action) => {
     case PROFILE_SET_STATS:
       return {
         ...state,
-        state: payload,
+        stats: payload,
+      }
+    case PROFILE_RESET_STATS:
+      return {
+        ...state,
+        stats: initialState.stats,
+        creature: initialState.creature,
       }
     default:
       return state;

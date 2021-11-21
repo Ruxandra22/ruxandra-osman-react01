@@ -1,4 +1,4 @@
-import { CLICKER_CLICK, CLICKER_DECREMENT } from '../../types/ui';
+import {CLICKER_CLICK, CLICKER_DECREMENT, SET_NETWORK_ERROR} from '../../types/ui';
 
 export const clickClicker = (payload = 1) => {
   return {
@@ -13,3 +13,10 @@ export const decrementClicker = (payload = 1) => {
     payload,
   };
 };
+
+export const setNetworkError = (payload) => {
+  return {
+    type: SET_NETWORK_ERROR,
+    payload,
+  }
+}

@@ -2,7 +2,7 @@ import {Button} from "../ui";
 import {useSelector} from "react-redux";
 
 export const ProfileForm = () => {
-  const {mainColor, secondaryColor, eyeColor} = useSelector(({ profile }) => {
+  const { mainColor, secondaryColor, eyeColor } = useSelector(({ profile }) => {
     const { creature } = profile;
     return creature;
   });

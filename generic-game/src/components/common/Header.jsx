@@ -1,15 +1,17 @@
 import { SiLetterboxd } from 'react-icons/si';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import Button from '../ui/Button';
 import { requestSignIn, requestSignOut} from '../../actions/creators/auth';
 import { FaUserAlt } from 'react-icons/fa';
 import {useAuth} from "../../hooks";
 import {Loader} from "../ui";
+import {useUi} from "../../hooks/useUi";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const { authenticated, established } = useAuth();
+  const { networkError } = useUi();
 
   const renderUserControls = () => {
     if (!established) {
@@ -67,6 +69,23 @@ export const Header = () => {
 
         <div>{renderUserControls()}</div>
       </div>
+
+      {networkError.length !== 0 &&
+        <div className="flex justify-between bg-black text-white p-2 mt-2">
+          {networkError}
+          <Button
+            type="button"
+            title="Reload"
+            onClick={() => {
+              // this gave me an error: unexpected use of location
+              // location.reload();
+            }}
+          >
+            Reload
+          </Button>
+        </div>
+      }
+
     </header>
   );
 };
