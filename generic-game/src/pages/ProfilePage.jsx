@@ -51,9 +51,13 @@ export const ProfilePage = () => {
         </section>
       }
 
-      <section className="mt-4 md:w-1/4 md:mt-12 mx-auto">
-        <ProfileForm/>
-      </section>
+      {established ? (
+        <section className="mt-4 md:w-1/4 md:mt-12 mx-auto">
+          <ProfileForm/>
+        </section>
+      ) : (
+        '...logging you in'
+      )}
 
       <section className="grid justify-items-center mt-32">
         <Button

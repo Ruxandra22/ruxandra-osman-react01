@@ -39,7 +39,7 @@ export const readUser = async (userId) => {
 export const deleteUser = async (userId) => {
   const endpoint = `users/${userId}`;
   return await usersApi.delete(endpoint);
-}
+};
 
 // createProfile
 export const createProfile = async (userId, colors) => {
@@ -49,7 +49,7 @@ export const createProfile = async (userId, colors) => {
   };
 
   return await usersApi.post('/profiles', payload);
-}
+};
 
 // readProfile
 export const readProfile = async (userId) => {
@@ -60,14 +60,21 @@ export const readProfile = async (userId) => {
   }
 
   return undefined;
-}
+};
 
 // updateProfile
+export const updateProfile = async (userId, colors) => {
+  const payload = {
+    creature: colors,
+  };
+
+  return await usersApi.patch(`/profiles/${userId}`, payload);
+};
 
 // deleteProfile
 export const deleteProfile = async (userId) => {
   const endpoint = `/profiles/${userId}`;
   return await usersApi.delete(endpoint);
-}
+};
 
 export default usersApi;
