@@ -77,7 +77,6 @@ export const Header = () => {
             type="button"
             title="Reload"
             onClick={() => {
-              // this gave me an error: unexpected use of location
               // location.reload();
             }}
           >
