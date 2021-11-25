@@ -6,6 +6,7 @@ import {FiMail, FiUserCheck} from "react-icons/all";
 import {Button} from "../components/ui";
 import {useDispatch} from "react-redux";
 import {requestDeleteUserStats} from "../actions/creators/auth";
+import {Creature} from "../components/profile";
 
 export const ProfilePage = () => {
   const history = useHistory();
@@ -47,6 +48,10 @@ export const ProfilePage = () => {
                 </li>
               </ul>
             </div>
+          </div>
+
+          <div className="w-full md:w-4/12 flex justify-center mt-8 md:mt-0">
+            <Creature/>
           </div>
         </section>
       }

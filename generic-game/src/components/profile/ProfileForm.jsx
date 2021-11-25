@@ -1,13 +1,10 @@
 import {Button} from "../ui";
 import {useDispatch, useSelector} from "react-redux";
 import {patchUserProfile, setCreatureColor} from "../../actions/creators/profile";
+import {useProfileColors} from "../../hooks";
 
 export const ProfileForm = () => {
-  const { mainColor, secondaryColor, eyeColor } = useSelector(({ profile }) => {
-    // selectors run on each dispatch
-    const { creature } = profile;
-    return creature;
-  });
+  const { mainColor, secondaryColor, eyeColor } = useProfileColors();
 
   const userId = useSelector(({auth}) => {
     return auth.user.id;
