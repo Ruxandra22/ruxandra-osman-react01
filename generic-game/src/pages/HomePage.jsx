@@ -1,8 +1,9 @@
 import {useAuth, useStats} from "../hooks";
-import {Loader} from "../components/ui";
+import {Button, Loader} from "../components/ui";
 import {useDispatch} from "react-redux";
 import {requestSignIn} from "../actions/creators/auth";
 import {UserStats} from "../components/profile";
+import {Link} from "react-router-dom";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,20 @@ export const HomePage = () => {
     <h1>Welcome to Word Game</h1>
     {
       !established ? <Loader/>: authenticated ? (
+        <>
           <UserStats {...stats} className='mt-8' entryClassName="p-5"/>
+          <div className="mt-2 text-center">
+            <Link to="/play">
+              <Button
+                title="Play now"
+                type="button"
+                element="span"
+              >
+                Play
+              </Button>
+            </Link>
+          </div>
+        </>
         ) :
         <div className="text-center">
           <button
