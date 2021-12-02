@@ -4,6 +4,7 @@ import {Authorize} from "../components/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {gameEnded, gameStarted} from "../actions/creators/game";
 import {patchGameLost, patchGameWon} from "../actions/creators/profile";
+import {useEffect} from "react";
 
 export const GamePage = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,12 @@ export const GamePage = () => {
   const { playing } = useSelector(({ game }) => {
     return game;
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(gameEnded());
+    }
+  }, [dispatch]);
 
   return (
     <div className="p-4 container flex mx-auto">

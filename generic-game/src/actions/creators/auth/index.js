@@ -7,8 +7,9 @@ import {
   postUserProfile,
   postUserStats
 } from '../profile';
-import { AUTH_LOGOUT, AUTH_LOGIN } from '../../types/auth';
+import {AUTH_LOGOUT, AUTH_LOGIN, SET_USERS, SET_USER} from '../../types/auth';
 import {setNetworkError} from "../ui";
+import {readUsers} from "../../../api/users";
 
 export const login = (user) => {
   return async (dispatch) => {
@@ -111,5 +112,66 @@ export const requestDeleteUserStats = (user) => {
       }
     }
     dispatch(requestSignOut());
+  }
+}
+
+// should be in a users slice!!
+export const getUsers = (force = false) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const cached = state.users.cached;
+
+    if (cached && !force) {
+      return;
+    }
+
+    try {
+      const users = await readUsers();
+
+      dispatch(setUsers(users));
+    } catch (response) {
+      console.log(response);
+    }
+  }
+}
+
+// should be in user slice!!
+export const getUser = (userId, force = false) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const user = state.users.entities[userId];
+
+    if (user !== undefined && force === false) {
+      return;
+    }
+
+    try {
+      const stats = await readUsers(userId);
+
+      dispatch(setUser({
+        id: userId,
+        stats,
+      }));
+    } catch (response) {
+      // should be logged into a tracking system, like Sentry
+      console.log(response);
+    };
+  }
+}
+
+// should be in a users slice!!
+export const setUsers = (users) => {
+  return {
+    type: SET_USERS,
+    payload: users,
+  };
+};
+
+
+// should be in a user slice!!
+export const setUser = (user) => {
+  return {
+    type: SET_USER,
+    payload: user,
   }
 }
