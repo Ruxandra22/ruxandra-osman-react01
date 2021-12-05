@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {useAuth} from "../hooks";
 import {ProfileForm} from "../components/profile";
 import {FiMail, FiUserCheck} from "react-icons/all";
-import {Button} from "../components/ui";
+import {Button, Loader} from "../components/ui";
 import {useDispatch} from "react-redux";
 import {requestDeleteUserStats} from "../actions/creators/auth";
 import {Creature} from "../components/profile";
@@ -61,7 +61,7 @@ export const ProfilePage = () => {
           <ProfileForm/>
         </section>
       ) : (
-        '...logging you in'
+        <Loader/>
       )}
 
       <section className="grid justify-items-center mt-32">

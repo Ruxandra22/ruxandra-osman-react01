@@ -30,6 +30,22 @@ export const ProfileForm = () => {
     dispatch(setCreatureColor(targetProperty, colorValue));
   }
 
+  /**
+   * I tried using this, but it did not work
+   * */
+  // const debounced = useDebouncedCallback(
+  //   // function
+  //   (event) => {
+  //     const element = event.target;
+  //     const targetProperty = element.name;
+  //     const colorValue = element.value;
+  //
+  //     dispatch(setCreatureColor(targetProperty, colorValue));
+  //   },
+  //   // delay in ms
+  //   1000
+  // );
+
   return (
     <form onSubmit={onSubmit}>
       <div className="mb-4 flex justify-between">
