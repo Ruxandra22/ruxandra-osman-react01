@@ -8,7 +8,7 @@ export const RanksPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers(true));
   }, [dispatch]);
 
   return (

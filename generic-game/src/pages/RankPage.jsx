@@ -1,41 +1,39 @@
 import {UserStats} from "../components/profile";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-import {getUser} from "../actions/creators/auth";
+import {getUser, getUsers} from "../actions/creators/auth";
+import {useUsers} from "../hooks";
+import {Loader} from "../components/ui";
 
 export const RankPage = ({match}) => {
 
   const dispatch = useDispatch();
   const userId = match.params.id;
 
-  const { established, user } = useSelector(({users}) => {
-    return {
-      established: users.established,
-      user: users.entities[userId],
-    }
-  });
+  const { entities: users, established} = useUsers();
 
   useEffect(() => {
+    if (!established) {
+      dispatch(getUsers());
+    }
     dispatch(getUser(userId));
-  }, [dispatch, userId]);
-
-  // TODO: delete this
-  if (!user) {
-    return <></>
-  }
+  }, [dispatch, userId, established]);
 
   return (
     <div className="mx-auto p-4 container">
-      <header>
-        <h1 className="text-3xl bold">
-          User rank
-        </h1>
-      </header>
+      {established ? [
+        <header>
+          <h1 className="text-3xl bold">
+            User rank
+          </h1>
+        </header>,
 
-      <section>
-        {/*TODO: spinner until the stats are loaded (with established)*/}
-        <UserStats {...user.stats}/>
-      </section>
+        <section className="mt-8">
+          <UserStats {...users[userId].stats}/>
+        </section>
+      ]:
+        <Loader/>
+      }
     </div>
   )
 }
